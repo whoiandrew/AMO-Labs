@@ -12,16 +12,19 @@ def sin_window(n):
         n = int(n) - 1
     except ValueError:
         messagebox.showwarning("Увага!", "Введіть ціле число!")
-        exit()
     x = [round((2/n) * i, 4) for i in range(n+1)]
+    x1 = [x / 10 for x in range(0, 21)]
+    print(x1)
+    print(len(x1))
     y1 = [math.sin(i) for i in x]
+    y_x1 = [math.sin(i) for i in x1]
 
     top = Toplevel(root)
     top.geometry("500x600")
 
     fig1 = Figure(figsize=(6, 3))
     a1 = fig1.add_subplot(111)
-    a1.plot([i for i in np.arange(0, 2.01, 0.01)], [math.sin(i) for i in np.arange(0, 2.01, 0.01)], color='green')
+    a1.plot([i for i in np.arange(0, 2.1, 0.1)], [math.sin(i) for i in np.arange(0, 2.1, 0.1)], color='green')
     a1.set_title("Sin(x) plot", fontsize=16)
     canvas = FigureCanvasTkAgg(fig1, master=top)
     canvas.get_tk_widget().pack()
@@ -30,7 +33,7 @@ def sin_window(n):
     fig2 = Figure(figsize=(6, 3))
     a2 = fig2.add_subplot(111)
     a2.scatter(x, y1, color='red')
-    a2.plot(x, [lagr(x, y1, i) for i in x], color='blue')
+    a2.plot(x1, [lagr(x, y1, i) for i in x1], color='blue')
     a2.set_title("Sin(x) interpolated function", fontsize=16)
     canvas = FigureCanvasTkAgg(fig2, master=top)
     canvas.get_tk_widget().pack()
@@ -44,13 +47,15 @@ def var_window(n):
         messagebox.showwarning("Увага!", "Введіть ціле число!")
         exit()
     x = [round((2/n) * i, 4) for i in range(n+1)]
+    x2 = [x / 10 for x in range(0, 21)]
     y2 = [math.cos(i + pow(math.cos(i), 3)) for i in x]
+    y_x2 = [math.cos(i + pow(math.cos(i), 3)) for i in x2]
     top = Toplevel(root)
     top.geometry("500x600")
 
     fig1 = Figure(figsize=(6, 3))
     a1 = fig1.add_subplot(111)
-    a1.plot([i for i in np.arange(0, 2.01, 0.01)], [math.cos(i + math.cos(i)**3) for i in np.arange(0, 2.01, 0.01)], color='green')
+    a1.plot([i for i in np.arange(0, 2.1, 0.1)], [math.cos(i + math.cos(i)**3) for i in np.arange(0, 2.1, 0.1)], color='green')
     a1.set_title("cos(x + cos(x)^3) plot", fontsize=16)
     canvas = FigureCanvasTkAgg(fig1, master=top)
     canvas.get_tk_widget().pack()
@@ -59,7 +64,7 @@ def var_window(n):
     fig2 = Figure(figsize=(6, 3))
     a2 = fig2.add_subplot(111)
     a2.scatter(x, y2, color='red')
-    a2.plot(x, [lagr(x, y2, i) for i in x], color='blue')
+    a2.plot(x2, [lagr(x, y2, i) for i in x2], color='blue')
     a2.set_title("cos(x + cos(x)^3) interpolated", fontsize=16)
     canvas = FigureCanvasTkAgg(fig2, master=top)
     canvas.get_tk_widget().pack()
@@ -73,14 +78,18 @@ def fault_window(n):
         messagebox.showwarning("Увага!", "Введіть ціле число!")
         exit()
     x = [round((2/n) * i, 4) for i in range(n+1)]
-    y1 = [math.sin(i) for i in x]
+    x2 = [round((2 / n) * i, 4) for i in np.arange(0, 2.1, 0.1)]
     y2 = [math.cos(i + pow(math.cos(i), 3)) for i in x]
+    y_x2 = [math.cos(i + pow(math.cos(i), 3)) for i in x2]
+    x1 = [x / 10 for x in range(0, 21)]
+    y_x1 = [math.sin(i) for i in x1]
+    y1 = [math.sin(i) for i in x]
     top = Toplevel(root)
     top.geometry("500x600")
 
     fig3 = Figure(figsize=(6, 3))
     a3 = fig3.add_subplot(111)
-    a3.plot(x, [y1[i] - lagr(x, y1, x[i]) for i in range(len(x))], color='blue')
+    a3.plot(x1, [y_x1[i] - lagr(x1, y_x1, x1[i]) for i in range(len(x1))], color='blue')
     a3.set_title("Похибка sin(x)", fontsize=16)
     canvas = FigureCanvasTkAgg(fig3, master=top)
     canvas.get_tk_widget().pack()
@@ -88,7 +97,7 @@ def fault_window(n):
 
     fig4 = Figure(figsize=(6, 3))
     a4 = fig4.add_subplot(111)
-    a4.plot(x, [y2[i] - lagr(x, y2, x[i]) for i in range(len(x))], color='blue')
+    a4.plot(x2, [y_x2[i] - lagr(x2, y_x2, x2[i]) for i in range(len(x2))], color='blue')
     a4.set_title("Похибка cos(x + cos(x)^3)", fontsize=16)
     canvas = FigureCanvasTkAgg(fig4, master=top)
     canvas.get_tk_widget().pack()
